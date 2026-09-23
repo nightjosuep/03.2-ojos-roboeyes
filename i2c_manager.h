@@ -16,6 +16,8 @@
 // Pista: Los valores viven en config.h; el resultado esperado se describe en la guía §05.
 inline void initI2C() {
     /* ESCRIBE TU CÓDIGO AQUÍ */
+    Wire.begin(I2C_SCL_PIN,I2C_SDA_PIN);    
+    Wire.setClock(I2C_FREQUENCY_HZ);
 }
 
 // TODO 1.2: Barre el rango completo de direcciones e informa cada dispositivo hallado y el conteo final.
@@ -23,13 +25,36 @@ inline void initI2C() {
 // Pista: La guía §05 muestra el barrido esperado línea por línea.
 inline void scanI2C() {
     /* ESCRIBE TU CÓDIGO AQUÍ */
+    int devicesFound = 0;
+    Serial.println("[I2C] escaneando direcciones 1-126");
+    for (byte address = 1; address < 127; address++) {
+        Wire.beginTransmission(address);
+        byte error = Wire.endTransmission();
+        if (error == 0) {
+            Serial.printf("[I2C] Dispositivo detectado en: 0x%02X ", address);
+            if (address == OLED_I2C_ADDRESS) {
+                Serial.println("➔ [Display OLED SSD1306] [OK]");
+            } else {
+                Serial.println("➔ [Periférico Desconocido]");
+            }
+            devicesFound++;
+       }
+    }        
 }
+            
 
 // TODO 1.3: Sondea la dirección del panel e informa si responde o si el arranque debe detenerse.
 // Pregunta Guía: ¿Qué debe imprimir el arranque cuando el panel no responde?
 // Pista: Hay dos caminos, uno de éxito y uno fatal; la guía §05 los muestra.
 inline void testI2CDevice() {
     /* ESCRIBE TU CÓDIGO AQUÍ */
+    Wire.beginTransmission(OLED_I2C_ADDRESS);
+    byte error=Wire.endTransmission();
+    if (error==0){
+        Serial.println("El oled responde");
+    }else{
+        Serial.println("Error el oled no responde ");
+    }
 }
 
 #endif
