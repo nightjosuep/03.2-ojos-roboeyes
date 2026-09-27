@@ -16,8 +16,9 @@
 // Pista: Los valores viven en config.h; el resultado esperado se describe en la guía §05.
 inline void initI2C() {
     /* ESCRIBE TU CÓDIGO AQUÍ */
-    Wire.begin(I2C_SCL_PIN,I2C_SDA_PIN);    
+    Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
     Wire.setClock(I2C_FREQUENCY_HZ);
+    Serial.printf("[I2C] bus listo SDA=%d SCL=%d\n", I2C_SDA_PIN, I2C_SCL_PIN);
 }
 
 // TODO 1.2: Barre el rango completo de direcciones e informa cada dispositivo hallado y el conteo final.
@@ -31,15 +32,11 @@ inline void scanI2C() {
         Wire.beginTransmission(address);
         byte error = Wire.endTransmission();
         if (error == 0) {
-            Serial.printf("[I2C] Dispositivo detectado en: 0x%02X ", address);
-            if (address == OLED_I2C_ADDRESS) {
-                Serial.println("➔ [Display OLED SSD1306] [OK]");
-            } else {
-                Serial.println("➔ [Periférico Desconocido]");
-            }
+            Serial.printf("[I2C] dispositivo en 0x%02X\n", address);
             devicesFound++;
-       }
-    }        
+        }
+    }
+    Serial.printf("[I2C] dispositivos encontrados: %d\n", devicesFound);
 }
             
 
@@ -49,11 +46,13 @@ inline void scanI2C() {
 inline void testI2CDevice() {
     /* ESCRIBE TU CÓDIGO AQUÍ */
     Wire.beginTransmission(OLED_I2C_ADDRESS);
-    byte error=Wire.endTransmission();
-    if (error==0){
-        Serial.println("El oled responde");
-    }else{
-        Serial.println("Error el oled no responde ");
+    byte error = Wire.endTransmission();
+    if (error == 0) {
+        Serial.printf("[POST] OLED responde en 0x%02X\n", OLED_I2C_ADDRESS);
+    } else {
+        Serial.printf("[POST] ERROR: OLED no responde en 0x%02X; deteniendo arranque\n", OLED_I2C_ADDRESS);
+        while (true) {
+        }
     }
 }
 
