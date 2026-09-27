@@ -22,13 +22,17 @@ void setup() {
 
     // TODO 1.5: Escribe las llamadas de los pasos 1 a 4 para dejar el bus y el panel listos.
     // Paso 1 — Puerto serie abierto a la velocidad del monitor (verás [BOOT] sistema de ojos OLED).
-    // Paso 2 — Bus I2C compartido levantado (verás [I2C] bus listo SDA=21 SCL=22).
+    // Paso 2 — Bus I2C compartido levantado (SDA=11, SCL=10).
     // Paso 3 — Barrido del bus reportado (verás el dispositivo en 0x3C y el conteo final).
     // Paso 4 — Dirección del panel sondeada (verás la respuesta del POST del OLED).
+    initI2C();
+    scanI2C();
+    testI2CDevice();
 
     // TODO 2.4: Escribe las llamadas de los pasos 5 y 6 para pintar el logo y ejecutar el POST de pantalla.
     // Paso 5 — Panel inicializado (verás el panel listo de 128x64 a 400 kHz).
     // Paso 6 — Logo pintado y POST de pantalla (verás el cuadrado de pantalla y sus coordenadas).
+    initDisplay();
 
     // TODO 3.4: Escribe la llamada del paso 7 para dejar los ojos listos.
     // Paso 7 — Ojos inicializados (verás los ojos listos a 60 fps).
