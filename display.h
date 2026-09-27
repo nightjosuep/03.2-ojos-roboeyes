@@ -25,9 +25,9 @@ inline void initDisplay() {
         Serial.println("[DISPLAY] ERROR: Pantalla no detectada en 0x3C.");
         while (true) {
         }
+        
+        Serial.println("[DISPLAY] Pantalla SSD1306 inicializada [OK]");
     }
-    Serial.printf("[DISPLAY] SSD1306 inicializado %dx%d a %lu kHz\n",
-                  OLED_WIDTH, OLED_HEIGHT, I2C_FREQUENCY_HZ / 1000UL);
 }
 
 // Ejemplo de uso de la API del panel: imprime una linea de texto y la presenta.
